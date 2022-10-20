@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 import Buttons from './Buttons'
 import DnsIcon from '@mui/icons-material/Dns';
 import StorageIcon from '@mui/icons-material/Storage';
+import ErrorIcon from '@mui/icons-material/Error';
 const drawerWidth = 240;
 
 
@@ -105,6 +106,21 @@ export function SideBar(props) {
                     </ListItem>
                 ))}
             </List>
+            <Divider />
+            <Divider />
+            <List>
+            <a  style={{color:"white", textDecoration: 'none' }} href="http://extlibrenms.mentz.net:8000/alert-log" target="_blank" rel="noopener noreferrer">
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                             <ErrorIcon /> 
+                            </ListItemIcon>
+                            <ListItemText primary="Alerts" />
+                        </ListItemButton>
+                    </ListItem>
+             </a>
+            </List>
+
         </div>
     );
 

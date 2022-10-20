@@ -89,7 +89,7 @@ const image =
 },
 image3=
 {
-  url: 'https://istock.7xm.xyz/images/7xm.xyz349299.jpg',
+  url: 'https://i.ibb.co/3MdS70C/7xm-xyz710473.jpg',
   title: 'DataBase availability',
   width: '50%',
   targetUrl:urlDB
