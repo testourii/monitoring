@@ -5,6 +5,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import Date from './Date'
 import Stack from '@mui/material/Stack';
+import { Button } from '@mui/material';
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -70,130 +71,151 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 const openInNewTab = url => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-export default function Buttons({isDB,urlDB,UrlMemory,urlProcessor,setFrom,setUntil,from,until}) {
-
-const image = 
-{
-  url: 'https://i.ibb.co/HGgVFgz/7xm-xyz949369.jpg',
-  title: 'Memory usage',
-  width: '50%',
-  targetUrl:UrlMemory
-},image2=
-{
-  url: 'https://i.ibb.co/3cvSMm1/7xm-xyz574867.jpg',
-  title: 'Processor usage',
-  width: '50%',
-  targetUrl:urlProcessor
-},
-image3=
-{
-  url: 'https://i.ibb.co/3MdS70C/7xm-xyz710473.jpg',
-  title: 'DataBase availability',
-  width: '50%',
-  targetUrl:urlDB
+  window.open(url, '_blank', 'noopener,noreferrer');
 };
+export default function Buttons({urlDBTemplate,dbs, isDB, urlDB, UrlMemory, urlProcessor, setFrom, setUntil, from, until }) {
+
+  const image =
+  {
+    url: 'https://i.ibb.co/HGgVFgz/7xm-xyz949369.jpg',
+    title: 'Memory usage',
+    width: '50%',
+    targetUrl: UrlMemory
+  }, image2 =
+    {
+      url: 'https://i.ibb.co/3cvSMm1/7xm-xyz574867.jpg',
+      title: 'Processor usage',
+      width: '50%',
+      targetUrl: urlProcessor
+    },
+    image3 =
+    {
+      url: 'https://i.ibb.co/3MdS70C/7xm-xyz710473.jpg',
+      title: 'DataBase availability',
+      width: '50%',
+      targetUrl: urlDB
+    };
 
 
   return (
-<><Box style={{ display: 'flex',alignItems:'center',justifyContent:'center', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
-     <Date setFrom={setFrom} setUntil={setUntil} from={from} until={until} />
-     </Box>
-    <Stack direction="row" spacing={10} margin={5}>
+    <><Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
+      <Date setFrom={setFrom} setUntil={setUntil} from={from} until={until} />
+    </Box>
+      <Stack direction="row" spacing={2} margin={2}>
 
-   {!isDB ?(<><Box style={{ display: 'flex',alignItems:'center',justifyContent:'center', flexWrap: 'wrap', minWidth: 400, width: '100%' }}>
-     <ImageButton
-         onClick={() => openInNewTab(image.targetUrl)}
-          focusRipple
-          key={image.title}
-          style={{
-            width: image.width,
-          }}
-        >
-          <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
-          <ImageBackdrop className="MuiImageBackdrop-root" />
-          <Image>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              sx={{
-                position: 'relative',
-                p: 4,
-                pt: 2,
-                pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
-              }}
-            >
-              {image.title}
-              <ImageMarked className="MuiImageMarked-root" />
-            </Typography>
-          </Image>
-        </ImageButton>
+        {!isDB ? (<><Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', minWidth: 400, width: '100%' }}>
+          <ImageButton
+            onClick={() => openInNewTab(image.targetUrl)}
+            focusRipple
+            key={image.title}
+            style={{
+              width: image.width,
+            }}
+          >
+            <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
+            <ImageBackdrop className="MuiImageBackdrop-root" />
+            <Image>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                sx={{
+                  position: 'relative',
+                  p: 4,
+                  pt: 2,
+                  pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                }}
+              >
+                {image.title}
+                <ImageMarked className="MuiImageMarked-root" />
+              </Typography>
+            </Image>
+          </ImageButton>
         </Box>
-    <Box style={{ display: 'flex',alignItems:'center',justifyContent:'center', flexWrap: 'wrap', minWidth: 400, width: '100%' }}>
+          {/* open both */}
+          <Box style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
 
-        <ImageButton
-         onClick={() => openInNewTab(image2.targetUrl)}
-
-          focusRipple
-          key={image2.title}
-          style={{
-            width: image2.width,
-          }}
-        >
-          <ImageSrc style={{ backgroundImage: `url(${image2.url})` }} />
-          <ImageBackdrop className="MuiImageBackdrop-root" />
-          <Image>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              sx={{
-                position: 'relative',
-                p: 4,
-                pt: 2,
-                pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+            <Button
+              variant='contained'
+              size='large'
+              style={{minWidth:"max-content"}}
+              onClick={() => {
+                openInNewTab(image.targetUrl)
+                openInNewTab(image2.targetUrl)
               }}
             >
-              {image2.title}
-              <ImageMarked className="MuiImageMarked-root" />
-            </Typography>
-          </Image>
-        </ImageButton>
-        </Box>
-        </>):
-        (<Box style={{ display: 'flex',alignItems:'center',justifyContent:'center', flexWrap: 'wrap', minWidth: 400, width: '100%' }}>
-     <ImageButton
-         onClick={() => openInNewTab(image3.targetUrl)}
-          focusRipple
-          key={image3.title}
-          style={{
-            width: image3.width,
-          }}
-        >
-          <ImageSrc style={{ backgroundImage: `url(${image3.url})` }} />
-          <ImageBackdrop className="MuiImageBackdrop-root" />
-          <Image>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              sx={{
-                position: 'relative',
-                p: 4,
-                pt: 2,
-                pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+              Open both
+            </Button>
+          </Box>
+          <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', minWidth: 400, width: '100%' }}>
+
+            <ImageButton
+              onClick={() => openInNewTab(image2.targetUrl)}
+
+              focusRipple
+              key={image2.title}
+              style={{
+                width: image2.width,
               }}
             >
-              {image3.title}
-              <ImageMarked className="MuiImageMarked-root" />
-            </Typography>
-          </Image>
-        </ImageButton>
-        </Box>)}
-    </Stack></>
-     
-    
+              <ImageSrc style={{ backgroundImage: `url(${image2.url})` }} />
+              <ImageBackdrop className="MuiImageBackdrop-root" />
+              <Image>
+                <Typography
+                  component="span"
+                  variant="subtitle1"
+                  color="inherit"
+                  sx={{
+                    position: 'relative',
+                    p: 4,
+                    pt: 2,
+                    pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                  }}
+                >
+                  {image2.title}
+                  <ImageMarked className="MuiImageMarked-root" />
+                </Typography>
+              </Image>
+            </ImageButton>
+          </Box>
+        </>) :
+          //DB Button
+          (<Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center',gap:"20px", flexWrap: 'wrap', minWidth: 400, width: '100%' }}>
+            <ImageButton
+              onClick={() => openInNewTab(image3.targetUrl)}
+              focusRipple
+              key={image3.title}
+              style={{
+                width: image3.width,
+              }}
+            >
+              <ImageSrc style={{ backgroundImage: `url(${image3.url})` }} />
+              <ImageBackdrop className="MuiImageBackdrop-root" />
+              <Image>
+                <Typography
+                  component="span"
+                  variant="subtitle1"
+                  color="inherit"
+                  sx={{
+                    position: 'relative',
+                    p: 4,
+                    pt: 2,
+                    pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                  }}
+                >
+                  {image3.title}
+                  <ImageMarked className="MuiImageMarked-root" />
+                </Typography>
+              </Image>
+            </ImageButton>
+            <Button variant="outlined" onClick={()=>{
+              Object.entries(dbs).forEach(([key,value]) =>openInNewTab(urlDBTemplate.replace('dbID',key)))
+            }}>
+              Open all DBs
+            </Button>
+          </Box>)}
+      </Stack></>
+
+
   );
 }

@@ -25,55 +25,76 @@ const drawerWidth = 240;
 export function SideBar(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [currentServer, setCurrentServer] = React.useState([296,"Cibo 01"]);
-    const [from, setFrom] = React.useState(dayjs().subtract(12,"hour"));
+    const [currentServer, setCurrentServer] = React.useState([31, "Cibo 01"]);
+    const [from, setFrom] = React.useState(dayjs().subtract(12, "hour"));
     const [until, setUntil] = React.useState(dayjs());
     const [isDB, setIsDBToggle] = React.useState(false);
-    const urlProcessor=`http://extlibrenms.mentz.net:8000/graphs/to=${until}/type=device_processor/from=${from}/lazy_w=845/device=${currentServer[0]}/`
-    const UrlMemory=`http://extlibrenms.mentz.net:8000/graphs/to=${until}/type=device_mempool/from=${from}/lazy_w=845/device=${currentServer[0]}/`
-    const urlDB=`http://extlibrenms.mentz.net:8000/graphs/device=${currentServer[0]}/type=device_availability/duration=86400/from=${from}/`
-    const handleServer = (key,value) => {
-        setCurrentServer([key,value])
-        value.startsWith("Mongo") ? setIsDBToggle(true) :setIsDBToggle(false);
+    const urlProcessor = `https://librenms.vrr-cibo.mentz-services.net/graphs/to=${until}/type=device_processor/from=${from}/lazy_w=845/device=${currentServer[0]}/`
+    const UrlMemory = `https://librenms.vrr-cibo.mentz-services.net/graphs/to=${until}/type=device_mempool/from=${from}/lazy_w=845/device=${currentServer[0]}/`
+    const urlDB = `https://librenms.vrr-cibo.mentz-services.net/graphs/device=${currentServer[0]}/type=device_availability/duration=86400/from=${from}/`
+    const urlDBTemplate = `https://librenms.vrr-cibo.mentz-services.net/graphs/device=dbID/type=device_availability/duration=86400/from=${from}/`
+
+    const handleServer = (key, value) => {
+        setCurrentServer([key, value])
+        value.startsWith("Mongo") ? setIsDBToggle(true) : setIsDBToggle(false);
     };
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-    const cibo2name={
-        296:"Cibo 01",
-        297:"Cibo 02",
-        298:"Cibo 03",
-        299:"Cibo 04",
-        300:"Cibo 11",
-        301:"Cibo 12",
-        302:"Cibo 13",
-        303:"Cibo 14",
+    //because the keys aren't in asc order
+    const ciboServers = [
+        { 31: "Cibo 01" },
+        { 32: "Cibo 02" },
+        { 33: "Cibo 03" },
+        { 44: "Cibo 04" },
+        { 34: "Cibo 11" },
+        { 35: "Cibo 12" },
+        { 37: "Cibo 13" },
+        { 36: "Cibo 14" },
+    ]
+
+    const mongo2name = {
+        22: "Mongo 01",
+        23: "Mongo 01 replic2",
+        39: "Mongo 11",
+        40: "Mongo 11 replic1",
+        41: "Mongo 11 replic2"
     };
-    const mongo2name={
-        306:"Mongo 01",
-        305:"Mongo 01 replic2",
-        309:"Mongo 11",
-        307:"Mongo 11 replic1",
-        308:"Mongo 11 replic2"
+    const shop2name = {
+        1: "Shop 01",
+        2: "Shop 02",
+        13: "Shop 03",
+        14: "Shop 04",
+        108: "Shop 11",
+        109: "Shop 12",
     };
-    const shop2name={
-        292:"Shop 01",
-        293:"Shop 02",
-        294:"Shop 03",
-        295:"Shop 04",
-        315:"Shop 11",
-        316:"Shop 12",
-        }  ;  
-        const drawer = (
+    const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
-                {Object.entries(cibo2name).map(([key,value], index) => (
-                    <ListItem onClick={e=>handleServer(key,value)} key={value} disablePadding>
+                {
+                    ciboServers.map((server, index) => {
+                        const [key, value] = Object.entries(server)[0];
+                        return (
+                            <ListItem onClick={e => handleServer(key, value)} key={value} disablePadding style={{ opacity: [36, 37].includes(Number(key)) ? 0.7 : 1 }} >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <DnsIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={value} />
+                                </ListItemButton>
+                            </ListItem>
+                        )
+                    })}
+            </List>
+            <Divider />
+            <List>
+                {Object.entries(mongo2name).map(([key, value], index) => (
+                    <ListItem onClick={e => handleServer(key, value)} key={value} disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
-                             <DnsIcon /> 
+                                <StorageIcon />
                             </ListItemIcon>
                             <ListItemText primary={value} />
                         </ListItemButton>
@@ -82,24 +103,11 @@ export function SideBar(props) {
             </List>
             <Divider />
             <List>
-            {Object.entries(mongo2name).map(([key,value], index) => (
-                    <ListItem onClick={e=>handleServer(key,value)} key={value} disablePadding>
+                {Object.entries(shop2name).map(([key, value], index) => (
+                    <ListItem onClick={e => handleServer(key, value)} key={value} disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
-                             <StorageIcon /> 
-                            </ListItemIcon>
-                            <ListItemText primary={value} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-            {Object.entries(shop2name).map(([key,value], index) => (
-                    <ListItem onClick={e=>handleServer(key,value)} key={value} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                             <DnsIcon /> 
+                                <DnsIcon />
                             </ListItemIcon>
                             <ListItemText primary={value} />
                         </ListItemButton>
@@ -109,16 +117,16 @@ export function SideBar(props) {
             <Divider />
             <Divider />
             <List>
-            <a  style={{color:"white", textDecoration: 'none' }} href="http://extlibrenms.mentz.net:8000/alert-log" target="_blank" rel="noopener noreferrer">
+                <a style={{ color: "white", textDecoration: 'none' }} href="https://librenms.vrr-cibo.mentz-services.net/alert-log" target="_blank" rel="noopener noreferrer">
                     <ListItem disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
-                             <ErrorIcon /> 
+                                <ErrorIcon />
                             </ListItemIcon>
                             <ListItemText primary="Alerts" />
                         </ListItemButton>
                     </ListItem>
-             </a>
+                </a>
             </List>
 
         </div>
@@ -188,8 +196,8 @@ export function SideBar(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                        <Buttons urlDB={urlDB} isDB={isDB} UrlMemory={UrlMemory} urlProcessor={urlProcessor} setFrom={setFrom} setUntil={setUntil} from={from} until={until} />
-               
+                <Buttons urlDBTemplate={urlDBTemplate} dbs={mongo2name} urlDB={urlDB} isDB={isDB} UrlMemory={UrlMemory} urlProcessor={urlProcessor} setFrom={setFrom} setUntil={setUntil} from={from} until={until} />
+
             </Box>
         </Box>
     );
